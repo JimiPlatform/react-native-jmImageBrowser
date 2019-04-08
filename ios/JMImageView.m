@@ -15,8 +15,7 @@
     }
     return self;
 }
--(void)configNetworkImageWithUrl:(NSString *)urlStr defaultImage:(UIImage *)defaultImage{
-    self.image = defaultImage;
+-(void)configNetworkImageWithUrl:(NSString *)urlStr{
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
         //NSString -> NSURL -> NSData -> UIImage

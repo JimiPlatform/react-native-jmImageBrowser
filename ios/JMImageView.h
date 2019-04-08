@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JMImageView : UIImageView
--(void)configNetworkImageWithUrl:(NSString *)urlStr defaultImage:(UIImage *)defaultImage;
+-(void)configNetworkImageWithUrl:(NSString *)urlStr;
 @end
 
 NS_ASSUME_NONNULL_END

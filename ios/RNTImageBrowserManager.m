@@ -9,10 +9,8 @@
 #import "RNTImageBrowserManager.h"
 #import "JMImageScrollView.h"
 @implementation RNTImageBrowserManager
-//RCT_EXPORT_MODULE(ImageBrowser)
-RCT_EXPORT_MODULE(ImageBrowser)
-RCT_EXPORT_VIEW_PROPERTY(urlStr,NSString*)
-RCT_EXPORT_VIEW_PROPERTY(placeholderImage,UIImage*)
+RCT_EXPORT_MODULE(JMImageBrowser)
+RCT_EXPORT_VIEW_PROPERTY(source,NSString)
 
 - (UIView *)view
 {

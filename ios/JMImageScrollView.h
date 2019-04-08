@@ -11,8 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JMImageScrollView : UIView
-@property(nonatomic) NSString *urlStr;
-@property(nonatomic) UIImage *placeholderImage;
+@property(nonatomic) NSString *source;
+@property (nonatomic,assign) float width;
+@property (nonatomic,assign) float height;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -14,18 +14,57 @@
 @end
 @implementation JMImageScrollView
 
--(instancetype)initWithFrame:(CGRect)frame{
-    if (self = [super initWithFrame:frame]) {
-        [self setUpView];
+-(instancetype)init{
+    if (self = [super init]) {
     }
     return self;
 }
-- (void)setUpView{
-    _enlargeImage = [[JMImageView alloc] initWithImage:_placeholderImage];
-    _enlargeImage.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-    if (_urlStr) {
-        [_enlargeImage configNetworkImageWithUrl:_urlStr defaultImage:_placeholderImage];
+- (void)setWidth:(float)width
+{
+    _width = width;
+    CGRect react = self.frame;
+    react.size.width = width;
+    self.frame = react;
+    if (!_enlargeImage) {
+        _enlargeImage = [[JMImageView alloc] init];
     }
+    _enlargeImage.frame = react;
+}
+- (void)setHeight:(float)height
+{
+    _height = height;
+    CGRect react = self.frame;
+    react.size.height = height;
+    self.frame = react;
+    if (!_enlargeImage) {
+        _enlargeImage = [[JMImageView alloc] init];
+    }
+    _enlargeImage.frame = react;
+}
+- (void)setSource:(NSString*)source
+{
+    _source = source;
+    [self setUpView];
+}
+- (void)setUpView{
+    _enlargeImage = [[JMImageView alloc] init];
+    CGRect react = self.frame;
+    if (!_width) {
+        react.size.width = [UIScreen mainScreen].bounds.size.width;
+    }
+    if (!_height) {
+        react.size.height = [UIScreen mainScreen].bounds.size.height;
+    }
+    self.frame= react;
+    _enlargeImage.frame= react;
+    if ([_source containsString:@"http"] || [_source containsString:@"HTTP"]) {
+        [_enlargeImage configNetworkImageWithUrl:_source];
+
+    }else{
+        _enlargeImage.image = [[UIImage alloc] initWithContentsOfFile:_source];
+    }
+
+
     [self setUpScrollView];
 }
 - (void)setUpScrollView{

@@ -1,6 +1,6 @@
 
 import { NativeModules } from 'react-native';
-import _JMaxBrowser from "./JMaxBrowser"
-// const { RNJMaxBrowser } = NativeModules;
+import ImageBrowser from './JMaxBrowser'
 
-export const JMaxBrowser = _JMaxBrowser;
+export default ImageBrowser;
+

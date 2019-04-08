@@ -1,19 +1,20 @@
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {requireNativeComponent,NativeModules} from 'react-native';
-const _module = NativeModules.ImageBrowser;
 
-export default class JMImageBrowser extends React.Component {
+export default class JMImageBrowserSreen extends React.Component {
     static propTypes = {
         ...View.propTypes,
-        urlStr: PropTypes.string,
-        placeholderImage: PropTypes.object,
+        source: PropTypes.string,
+        width: PropTypes.number,
+        height: PropTypes.number,
+    }
+    static defaultProps = {
+      width:300,
+      width:300,
     }
     render() {
-      console.log(`34536578679856746454332`);
-      
-      return <ImageBrowser {...this.props} />;
+      return <JMImageBrowser {...this.props} />;
     }
 }
-var ImageBrowser = requireNativeComponent('ImageBrowser', JMImageBrowser);
+var JMImageBrowser = requireNativeComponent('JMImageBrowser', JMImageBrowserSreen);
