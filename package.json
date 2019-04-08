@@ -1,7 +1,7 @@
 
 {
   "name": "react-native-j-max-browser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "可以自由捏合放大缩小图片",
   "main": "index.js",
   "scripts": {
