@@ -1,8 +1,8 @@
 
 Pod::Spec.new do |s|
-  s.name         = "react-native-photoview-jm"
-  s.version      = "1.0.0"
-  s.summary      = "RNJMaxBrowser"
+  s.name         = "RNJMaxBrowser"
+  s.version      = package["version"]
+  s.summary      = package["description"]
   s.description  = <<-DESC
                   RNJMaxBrowser
                    DESC
