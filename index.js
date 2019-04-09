@@ -1,6 +1,7 @@
 
-import { NativeModules } from 'react-native';
-import ImageBrowser from './JMaxBrowser'
+//import { NativeModules } from 'react-native';
+//import ZoomImageView from './JMaxBrowser'
 
-export default ImageBrowser;
+//export default ZoomImageView;
+export {default as ZoomImageView} from './JMaxBrowser'
 

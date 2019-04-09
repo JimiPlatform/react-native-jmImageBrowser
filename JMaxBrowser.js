@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {requireNativeComponent,NativeModules,View} from 'react-native';
+import {requireNativeComponent,NativeModules,View,Dimensions} from 'react-native';
 
 export default class JMImageBrowserSreen extends React.Component {
     static propTypes = {
@@ -9,10 +9,17 @@ export default class JMImageBrowserSreen extends React.Component {
         width: PropTypes.number,
         height: PropTypes.number,
     }
-    static defaultProps = {
-      width:300,
-      width:300,
-    }
+   static defaultProps = {
+    ...Platform.select({
+        ios:{
+            width:Dimensions.get('window').width,
+            height:Dimensions.get('window').height,
+        },
+        android:{
+        }
+    }),
+
+   }
     render() {
       return <JMImageBrowser {...this.props} />;
     }
