@@ -17,4 +17,4 @@ export default class JMImageBrowserSreen extends React.Component {
       return <JMImageBrowser {...this.props} />;
     }
 }
-var JMImageBrowser = requireNativeComponent('JMImageBrowser', JMImageBrowserSreen);
+var JMImageBrowser = requireNativeComponent('JMZoomImageView', JMImageBrowserSreen);
