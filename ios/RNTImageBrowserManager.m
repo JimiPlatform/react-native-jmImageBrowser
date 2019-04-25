@@ -11,6 +11,9 @@
 @implementation RNTImageBrowserManager
 RCT_EXPORT_MODULE(JMZoomImageView)
 RCT_EXPORT_VIEW_PROPERTY(source,NSString)
+RCT_EXPORT_VIEW_PROPERTY(placeholderPath,NSString)
+RCT_EXPORT_VIEW_PROPERTY(width,float)
+RCT_EXPORT_VIEW_PROPERTY(height,float)
 
 - (UIView *)view
 {

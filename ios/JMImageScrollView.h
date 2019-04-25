@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSString *source;
 @property (nonatomic,assign) float width;
 @property (nonatomic,assign) float height;
+@property (nonatomic) NSString *placeholderPath;
 
 @end
 

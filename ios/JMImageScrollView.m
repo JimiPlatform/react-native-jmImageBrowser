@@ -30,6 +30,15 @@
     }
     _enlargeImage.frame = react;
 }
+- (void)setPlaceholderPath:(NSString *)placeholderPath{
+    _placeholderPath = placeholderPath;
+    if (!_enlargeImage) {
+        _enlargeImage = [[JMImageView alloc] init];
+        _enlargeImage.image = [[UIImage alloc] initWithContentsOfFile:placeholderPath];
+    }else if(!_enlargeImage.image){
+        _enlargeImage.image = [[UIImage alloc] initWithContentsOfFile:placeholderPath];
+    }
+}
 - (void)setHeight:(float)height
 {
     _height = height;
@@ -57,14 +66,22 @@
     }
     self.frame= react;
     _enlargeImage.frame= react;
+    _enlargeImage.contentMode = UIViewContentModeScaleAspectFit;
+    
     if ([_source containsString:@"http"] || [_source containsString:@"HTTP"]) {
-        [_enlargeImage configNetworkImageWithUrl:_source];
-
+        [_enlargeImage configNetworkImageWithUrl:_source superSize:react.size];
+        
     }else{
-        _enlargeImage.image = [[UIImage alloc] initWithContentsOfFile:_source];
+        UIImage *image = [[UIImage alloc] initWithContentsOfFile:_source];
+        _enlargeImage.image = image;
+        CGSize imageSize = image.size;
+        CGFloat width = react.size.width;
+        CGFloat height = imageSize.height/imageSize.width*width;
+        CGFloat statuAndNavH = [UIApplication sharedApplication].statusBarFrame.size.height + 44.0;
+        _enlargeImage.frame = CGRectMake(0, (react.size.height - height - statuAndNavH)/2 , width, height);
     }
-
-
+    
+    
     [self setUpScrollView];
 }
 - (void)setUpScrollView{
