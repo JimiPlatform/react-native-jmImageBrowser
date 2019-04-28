@@ -71,7 +71,7 @@
     if ([_source containsString:@"http"] || [_source containsString:@"HTTP"]) {
         [_enlargeImage configNetworkImageWithUrl:_source superSize:react.size];
         
-    }else{
+    }else if(_source.length > 0){
         UIImage *image = [[UIImage alloc] initWithContentsOfFile:_source];
         _enlargeImage.image = image;
         CGSize imageSize = image.size;
@@ -80,8 +80,6 @@
         CGFloat statuAndNavH = [UIApplication sharedApplication].statusBarFrame.size.height + 44.0;
         _enlargeImage.frame = CGRectMake(0, (react.size.height - height - statuAndNavH)/2 , width, height);
     }
-    
-    
     [self setUpScrollView];
 }
 - (void)setUpScrollView{
