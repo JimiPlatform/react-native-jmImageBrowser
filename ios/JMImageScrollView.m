@@ -73,12 +73,16 @@
         
     }else if(_source.length > 0){
         UIImage *image = [[UIImage alloc] initWithContentsOfFile:_source];
+        if (!image) {
+            image = [self createImageWithColor:UIColor.blackColor size:CGSizeMake(react.size.width, 200)];
+        }
         _enlargeImage.image = image;
         CGSize imageSize = image.size;
         CGFloat width = react.size.width;
         CGFloat height = imageSize.height/imageSize.width*width;
         CGFloat statuAndNavH = [UIApplication sharedApplication].statusBarFrame.size.height + 44.0;
         _enlargeImage.frame = CGRectMake(0, (react.size.height - height - statuAndNavH)/2 , width, height);
+        
     }
     [self setUpScrollView];
 }
@@ -100,4 +104,14 @@
     self.enlargeImage.frame = frame;
     self.scrollView.contentSize = CGSizeMake(self.enlargeImage.frame.size.width + 30, self.enlargeImage.frame.size.height + 30);
 }
+- (UIImage*)createImageWithColor: (UIColor*) color size:(CGSize)size{
+    CGRect rect=CGRectMake(0.0f, 0.0f, size.width,size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();return theImage;
+}
+
 @end
