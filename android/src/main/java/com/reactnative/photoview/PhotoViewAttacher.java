@@ -607,7 +607,6 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         if (mScaleType == ScaleType.CENTER) {
             mBaseMatrix.postTranslate((viewWidth - drawableWidth) / 2F,
                 (viewHeight - drawableHeight) / 2F);
-
         } else if (mScaleType == ScaleType.CENTER_CROP) {
             float scale = Math.max(widthScale, heightScale);
             mBaseMatrix.postScale(scale, scale);
