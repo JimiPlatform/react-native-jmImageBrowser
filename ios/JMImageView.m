@@ -30,6 +30,9 @@
         //下载图片
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         UIImage *image = [UIImage imageWithData:imageData];
+        if (!image) {
+            return;
+        }
         //组合：主队列异步执行
         dispatch_async(dispatch_get_main_queue(), ^{
             //更新界面
