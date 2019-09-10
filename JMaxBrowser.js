@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {requireNativeComponent,NativeModules,View,Dimensions} from 'react-native';
+import {requireNativeComponent,NativeModules,View,Dimensions,Platform} from 'react-native';
 
 export default class JMImageBrowserSreen extends React.Component {
     static propTypes = {
