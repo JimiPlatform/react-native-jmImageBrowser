@@ -21,6 +21,10 @@
     }
     return self;
 }
+- (void)setFrame:(CGRect)frame{
+    [super setFrame:frame];
+    
+}
 -(void)configNetworkImageWithUrl:(NSString *)urlStr  superSize:(CGSize)superSize{
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
@@ -40,7 +44,7 @@
             CGSize imageSize = image.size;
             CGFloat width = superSize.width;
             CGFloat height = imageSize.height/imageSize.width*width;
-            CGFloat statuAndNavH = [UIApplication sharedApplication].statusBarFrame.size.height + 44.0;
+            CGFloat statuAndNavH = superSize.height != [UIScreen mainScreen].bounds.size.height ? 0 : [UIApplication sharedApplication].statusBarFrame.size.height + 44.0;
             self.frame = CGRectMake(0, (superSize.height - height - statuAndNavH)/2 , width, height);
         });
     });
