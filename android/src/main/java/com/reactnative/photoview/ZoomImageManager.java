@@ -1,15 +1,20 @@
 package com.reactnative.photoview;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.RequestOptions;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.concurrent.ExecutionException;
 
 /*
  * COPYRIGHT. ShenZhen JiMi Technology Co., Ltd. 2019.
@@ -30,6 +35,11 @@ public class ZoomImageManager extends SimpleViewManager<PhotoView> {
     public String getName() {
         return "JMZoomImageView";
     }
+    private Context context;
+
+    public void setContext(Context _context){
+        this.context=_context;
+    }
 
     @Override
     protected PhotoView createViewInstance(ThemedReactContext reactContext) {
@@ -37,21 +47,24 @@ public class ZoomImageManager extends SimpleViewManager<PhotoView> {
     }
 
     @ReactProp(name = "source")
-    public void setSource(PhotoView zoomImageView, String url){
+    public void setSource(final PhotoView zoomImageView, final String url){
         Log.i("ZoomImageManager","source:" + url);
         try {
-            FileInputStream fis = new FileInputStream(url);
-            Bitmap bitmap = BitmapFactory.decodeStream(fis);
-            zoomImageView.setImageBitmap(bitmap);
+            if(url==null){
+                return;
+            }
+            if(url.startsWith("http")){
+                Glide.with(context).load(url).into(zoomImageView);
+            }else{
+                FileInputStream fis = new FileInputStream(url);
+                Bitmap bitmap = BitmapFactory.decodeStream(fis);
+                zoomImageView.setImageBitmap(bitmap);
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Log.i("ZoomImageManager","error");
         }
     }
-
-//    public void setMaxScale(ZoomImageView zoomImageView, int maxValues){
-//
-//    }
-
 
 }

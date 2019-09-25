@@ -30,8 +30,10 @@ import java.util.List;
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+        ZoomImageManager zoomImageManager=new ZoomImageManager();
         List<ViewManager> list = new ArrayList<>();
-        list.add(new ZoomImageManager());
+        list.add(zoomImageManager);
+        zoomImageManager.setContext(reactContext);
         return list;
     }
 }
