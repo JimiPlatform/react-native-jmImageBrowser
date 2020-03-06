@@ -87,7 +87,7 @@
         [_enlargeImage configNetworkImageWithUrl:_source superSize:react.size];
         
     }else if(_source.length > 0){
-        UIImage *image = [[UIImage alloc] initWithContentsOfFile:_source];
+        UIImage *image = [[UIImage alloc] initWithContentsOfFile:[_source stringByReplacingOccurrencesOfString:@"file://" withString:@""]];
         if (!image) {
             image = [self createImageWithColor:UIColor.blackColor size:CGSizeMake(react.size.width, react.size.height)];
         }
