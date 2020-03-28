@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JMImageView : UIImageView
--(void)configNetworkImageWithUrl:(NSString *)urlStr superSize:(CGSize)superSize;
+-(void)configNetworkImageWithUrl:(NSString *)urlStr  completionHandler:(void(^)(CGSize imageSize))completionHandler;
 @end
 
 NS_ASSUME_NONNULL_END

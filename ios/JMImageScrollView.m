@@ -27,23 +27,16 @@
     self.frame = react;
     if (!_enlargeImage) {
         _enlargeImage = [[JMImageView alloc] init];
-        _enlargeImage.frame = react;
-    }else{
-        react.origin.x = _enlargeImage.frame.origin.x == 0 ? react.origin.x : _enlargeImage.frame.origin.x;
-        react.origin.y = _enlargeImage.frame.origin.y == 0 ? react.origin.y : _enlargeImage.frame.origin.y;
-        react.size.width = _enlargeImage.frame.size.width == 0 ? react.size.width : _enlargeImage.frame.size.width;
-        react.size.height = _enlargeImage.frame.size.height == 0 ? react.size.height : _enlargeImage.frame.size.height;
-        _enlargeImage.frame = react;
     }
-    
+    _enlargeImage.frame = react;
 }
 - (void)setPlaceholderPath:(NSString *)placeholderPath{
     _placeholderPath = placeholderPath;
     if (!_enlargeImage) {
         _enlargeImage = [[JMImageView alloc] init];
-        _enlargeImage.image = [[UIImage alloc] initWithContentsOfFile:placeholderPath];
+        _enlargeImage.image = [[UIImage alloc] initWithContentsOfFile:[placeholderPath stringByReplacingOccurrencesOfString:@"file://" withString:@""]];
     }else if(!_enlargeImage.image){
-        _enlargeImage.image = [[UIImage alloc] initWithContentsOfFile:placeholderPath];
+        _enlargeImage.image = [[UIImage alloc] initWithContentsOfFile:[placeholderPath stringByReplacingOccurrencesOfString:@"file://" withString:@""]];
     }
 }
 - (void)setHeight:(float)height
@@ -54,14 +47,8 @@
     self.frame = react;
     if (!_enlargeImage) {
         _enlargeImage = [[JMImageView alloc] init];
-        _enlargeImage.frame = react;
-    }else{
-        react.origin.x = _enlargeImage.frame.origin.x == 0 ? react.origin.x : _enlargeImage.frame.origin.x;
-        react.origin.y = _enlargeImage.frame.origin.y == 0 ? react.origin.y : _enlargeImage.frame.origin.y;
-        react.size.width = _enlargeImage.frame.size.width == 0 ? react.size.width : _enlargeImage.frame.size.width;
-        react.size.height = _enlargeImage.frame.size.height == 0 ? react.size.height : _enlargeImage.frame.size.height;
-        _enlargeImage.frame = react;
     }
+    _enlargeImage.frame = react;
 }
 - (void)setSource:(NSString*)source
 {
@@ -69,9 +56,7 @@
     [self setUpView];
 }
 - (void)setUpView{
-    if (!_enlargeImage) {
-        _enlargeImage = [[JMImageView alloc] init];
-    }
+    _enlargeImage = [[JMImageView alloc] init];
     CGRect react = self.frame;
     if (!_width) {
         react.size.width = [UIScreen mainScreen].bounds.size.width;
@@ -84,24 +69,33 @@
     _enlargeImage.contentMode = UIViewContentModeScaleAspectFit;
     
     if ([_source containsString:@"http"] || [_source containsString:@"HTTP"]) {
-        [_enlargeImage configNetworkImageWithUrl:_source superSize:react.size];
-        
+        __weak JMImageScrollView *weakSelf = self;
+        [_enlargeImage configNetworkImageWithUrl:_source completionHandler:^(CGSize imageSize) {
+            CGFloat width = weakSelf.frame.size.width;
+            CGFloat height = imageSize.height/imageSize.width*width;
+            CGFloat statuAndNavH = weakSelf.frame.size.height == [UIScreen mainScreen].bounds.size.height ? ([UIApplication sharedApplication].statusBarFrame.size.height + 44.0) : 0;
+            weakSelf.enlargeImage.frame = CGRectMake(0, (weakSelf.frame.size.height - height - statuAndNavH)/2 , width, height);
+        }];
     }else if(_source.length > 0){
         UIImage *image = [[UIImage alloc] initWithContentsOfFile:[_source stringByReplacingOccurrencesOfString:@"file://" withString:@""]];
         if (!image) {
-            image = [self createImageWithColor:UIColor.blackColor size:CGSizeMake(react.size.width, react.size.height)];
+            image = [self createImageWithColor:UIColor.blackColor size:CGSizeMake(react.size.width, 200)];
         }
         _enlargeImage.image = image;
         CGSize imageSize = image.size;
         CGFloat width = react.size.width;
         CGFloat height = imageSize.height/imageSize.width*width;
-        CGFloat statuAndNavH = react.size.height != [UIScreen mainScreen].bounds.size.height ? 0 : [UIApplication sharedApplication].statusBarFrame.size.height + 44.0;
+        CGFloat statuAndNavH = react.size.height == [UIScreen mainScreen].bounds.size.height ? ([UIApplication sharedApplication].statusBarFrame.size.height + 44.0) : 0;
         _enlargeImage.frame = CGRectMake(0, (react.size.height - height - statuAndNavH)/2 , width, height);
         
     }
     [self setUpScrollView];
 }
 - (void)setUpScrollView{
+    if (_scrollView) {
+        [_scrollView removeFromSuperview];
+        _scrollView = nil;
+    }
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     _scrollView.minimumZoomScale = 0.5;
     _scrollView.maximumZoomScale = 10;
@@ -117,7 +111,7 @@
     frame.origin.y = (self.scrollView.frame.size.height - self.enlargeImage.frame.size.height) > 0 ? (self.scrollView.frame.size.height - self.enlargeImage.frame.size.height) * 0.5 : 0;
     frame.origin.x = (self.scrollView.frame.size.width - self.enlargeImage.frame.size.width) > 0 ? (self.scrollView.frame.size.width - self.enlargeImage.frame.size.width) * 0.5 : 0;
     self.enlargeImage.frame = frame;
-    self.scrollView.contentSize = CGSizeMake(self.enlargeImage.frame.size.width, self.enlargeImage.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.enlargeImage.frame.size.width + 30, self.enlargeImage.frame.size.height + 30);
 }
 - (UIImage*)createImageWithColor: (UIColor*) color size:(CGSize)size{
     CGRect rect=CGRectMake(0.0f, 0.0f, size.width,size.height);
