@@ -107,11 +107,18 @@
     return self.enlargeImage;
 }
 -(void)scrollViewDidZoom:(UIScrollView *)scrollView{
-    CGRect frame = self.enlargeImage.frame;
-    frame.origin.y = (self.scrollView.frame.size.height - self.enlargeImage.frame.size.height) > 0 ? (self.scrollView.frame.size.height - self.enlargeImage.frame.size.height) * 0.5 : 0;
-    frame.origin.x = (self.scrollView.frame.size.width - self.enlargeImage.frame.size.width) > 0 ? (self.scrollView.frame.size.width - self.enlargeImage.frame.size.width) * 0.5 : 0;
-    self.enlargeImage.frame = frame;
-    self.scrollView.contentSize = CGSizeMake(self.enlargeImage.frame.size.width + 30, self.enlargeImage.frame.size.height + 30);
+    CGFloat scrollW = CGRectGetWidth(scrollView.frame);
+     CGFloat scrollH = CGRectGetHeight(scrollView.frame);
+
+     CGSize contentSize = scrollView.contentSize;
+     CGFloat offsetX = scrollW > contentSize.width ? (scrollW - contentSize.width) * 0.5 : 0;
+     CGFloat offsetY = scrollH > contentSize.height ? (scrollH - contentSize.height) * 0.5 : 0;
+
+     CGFloat centerX = contentSize.width * 0.5 + offsetX;
+     CGFloat centerY = contentSize.height * 0.5 + offsetY;
+    CGFloat statuAndNavH = self.frame.size.height != [UIScreen mainScreen].bounds.size.height ? ([UIApplication sharedApplication].statusBarFrame.size.height + 44.0) : 0;
+
+     self.enlargeImage.center = CGPointMake(centerX, centerY - statuAndNavH);
 }
 - (UIImage*)createImageWithColor: (UIColor*) color size:(CGSize)size{
     CGRect rect=CGRectMake(0.0f, 0.0f, size.width,size.height);
